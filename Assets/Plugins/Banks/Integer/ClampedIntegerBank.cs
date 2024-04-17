@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Plugins.Banks
+namespace Plugins.Banks.Integer
 {
     public class ClampedIntegerBank : IClampedBank<int>
     {
@@ -42,17 +42,16 @@ namespace Plugins.Banks
             UpdateFillAmount();
         }
 
-        public bool Spend(int value)
+        public void Spend(int value)
         {
             value = Mathf.Max(0, value);
 
             if (HasEnough(value) == false)
-                return false;
+                return;
 
             _amount.Value -= value;
 
             UpdateFillAmount();
-            return true;
         }
 
         public void SetValue(int value)

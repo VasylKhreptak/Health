@@ -1,5 +1,5 @@
-using Plugins.Banks;
 using Plugins.Banks.Core;
+using Plugins.Banks.Float;
 using Plugins.Health.Core;
 using UniRx;
 using UnityEngine;
