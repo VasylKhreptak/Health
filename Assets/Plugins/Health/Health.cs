@@ -10,6 +10,8 @@ namespace Plugins.Health
     {
         private readonly IClampedBank<float> _health;
 
+        public Health() { }
+
         public Health(float maxHealth) : this(maxHealth, maxHealth) { }
 
         public Health(float health, float maxHealth)
