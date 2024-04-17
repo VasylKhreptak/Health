@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 
 namespace Plugins.Health.Core
@@ -14,9 +15,9 @@ namespace Plugins.Health.Core
 
         public IReadOnlyReactiveProperty<bool> IsDeath { get; }
 
-        public Subject<float> OnDamaged { get; }
+        public IObservable<float> OnDamaged { get; }
 
-        public Subject<float> OnHealed { get; }
+        public IObservable<float> OnHealed { get; }
 
         public void SetValue(float health);
 

@@ -1,3 +1,4 @@
+using System;
 using Plugins.Banks.Core;
 using Plugins.Banks.Float;
 using Plugins.Health.Core;
@@ -33,9 +34,9 @@ namespace Plugins.Health
 
         public IReadOnlyReactiveProperty<bool> IsDeath => _health.IsEmpty;
 
-        public Subject<float> OnDamaged => _onDamaged;
+        public IObservable<float> OnDamaged => _onDamaged;
 
-        public Subject<float> OnHealed => _onHealed;
+        public IObservable<float> OnHealed => _onHealed;
 
         public void SetValue(float health) => _health.SetValue(health);
 
