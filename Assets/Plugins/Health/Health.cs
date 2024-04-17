@@ -9,14 +9,18 @@ namespace Plugins.Health
     public class Health : IHealth
     {
         private readonly IClampedBank<float> _health;
+        private readonly Subject<float> _onDamaged;
+        private readonly Subject<float> _onHealed;
 
-        public Health() { }
+        public Health() : this(0) { }
 
         public Health(float maxHealth) : this(maxHealth, maxHealth) { }
 
         public Health(float health, float maxHealth)
         {
             _health = new ClampedFloatBank(health, maxHealth);
+            _onDamaged = new Subject<float>();
+            _onHealed = new Subject<float>();
         }
 
         public IReadOnlyReactiveProperty<float> Value => _health.Amount;
@@ -29,20 +33,37 @@ namespace Plugins.Health
 
         public IReadOnlyReactiveProperty<bool> IsDeath => _health.IsEmpty;
 
-        public IReadOnlyReactiveProperty<float> OnDamaged =>
-            _health.Amount
-                .Pairwise()
-                .Where(pair => pair.Previous > pair.Current)
-                .Select(pair => pair.Previous - pair.Current)
-                .ToReactiveProperty();
+        public Subject<float> OnDamaged => _onDamaged;
+
+        public Subject<float> OnHealed => _onHealed;
 
         public void SetValue(float health) => _health.SetValue(health);
 
         public void SetMaxValue(float maxValue) => _health.SetMaxValue(maxValue);
 
-        public void Add(float health) => _health.Add(health);
+        public void Heal(float amount)
+        {
+            amount = Mathf.Clamp(amount, 0, _health.MaxAmount.Value - _health.Amount.Value);
 
-        public void TakeDamage(float damage) => _health.Spend(Mathf.Min(damage, _health.Amount.Value));
+            _health.Add(amount);
+
+            if (amount == 0)
+                return;
+
+            _onHealed.OnNext(amount);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            damage = Mathf.Clamp(damage, 0, _health.Amount.Value);
+
+            _health.Spend(damage);
+
+            if (damage == 0)
+                return;
+
+            _onDamaged.OnNext(damage);
+        }
 
         public void Kill() => _health.Clear();
 

@@ -14,13 +14,15 @@ namespace Plugins.Health.Core
 
         public IReadOnlyReactiveProperty<bool> IsDeath { get; }
 
-        public IReadOnlyReactiveProperty<float> OnDamaged { get; }
+        public Subject<float> OnDamaged { get; }
+
+        public Subject<float> OnHealed { get; }
 
         public void SetValue(float health);
 
         public void SetMaxValue(float maxValue);
 
-        public void Add(float health);
+        public void Heal(float amount);
 
         public void TakeDamage(float damage);
 
