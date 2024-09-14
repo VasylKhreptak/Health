@@ -3,22 +3,8 @@ using UniRx;
 
 namespace Plugins.Health.Core
 {
-    public interface IHealth
+    public interface IHealth : IReadOnlyHealth
     {
-        public IReadOnlyReactiveProperty<float> Value { get; }
-
-        public IReadOnlyReactiveProperty<float> MaxValue { get; }
-
-        public IReadOnlyReactiveProperty<float> FillAmount { get; }
-
-        public IReadOnlyReactiveProperty<bool> IsFull { get; }
-
-        public IReadOnlyReactiveProperty<bool> IsDeath { get; }
-
-        public IObservable<float> OnDamaged { get; }
-
-        public IObservable<float> OnHealed { get; }
-
         public void SetValue(float health);
 
         public void SetMaxValue(float maxValue);

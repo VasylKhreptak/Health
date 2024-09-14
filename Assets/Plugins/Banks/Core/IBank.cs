@@ -1,13 +1,9 @@
-﻿using UniRx;
+﻿using System;
 
 namespace Plugins.Banks.Core
 {
-    public interface IBank<T>
+    public interface IBank<T> : IReadOnlyBank<T> where T : IComparable<T>
     {
-        public IReadOnlyReactiveProperty<T> Amount { get; }
-
-        public IReadOnlyReactiveProperty<bool> IsEmpty { get; }
-
         public void Add(T value);
 
         public void Spend(T value);
