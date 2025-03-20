@@ -1,6 +1,3 @@
-using System;
-using UniRx;
-
 namespace Plugins.Health.Core
 {
     public interface IHealth : IReadOnlyHealth

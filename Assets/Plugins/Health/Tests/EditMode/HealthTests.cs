@@ -289,7 +289,7 @@ namespace Plugins.Health.Tests.EditMode
             int eventFiredCount = 0;
 
             IHealth health = new Health(50, 100);
-            
+
             IDisposable damageSubscription = health.OnDamaged.Subscribe(damage =>
             {
                 damageReceived += damage;
